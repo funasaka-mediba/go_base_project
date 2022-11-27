@@ -1,0 +1,2 @@
+# go_base_project
+auWellness_apiを参考にCRUD APIを作成する際のベースとなるアーキテクチャ
