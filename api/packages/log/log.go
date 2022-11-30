@@ -45,7 +45,7 @@ var defaultZapLoggerConfig = zap.Config{
 }
 
 // 本来なら、NewLogger関数がなくてもdefaultZapLoggerConfig.Build()でいいけど、
-// Envとか入れたり、これを実行するところによってLogLevelを変更できるようにするために、コンストラクタを用意してる
+// Envとか入れたり、LogLevelを変更できるようにするために、以下のようなコンストラクタを用意してる
 func NewLogger(cfg *Config) (*zap.Logger, error) {
 	zcfg := defaultZapLoggerConfig
 	zcfg.Level = zap.NewAtomicLevelAt(ConvertToZapLevel(cfg.LogLevel))
