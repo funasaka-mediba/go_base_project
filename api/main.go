@@ -7,12 +7,14 @@ import (
 	"go_base_project/registry"
 	"net/http"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 var version string
 
 func main() {
-	// setupEnv()
+	setupEnv()
 	setupLogger()
 	addr := fmt.Sprintf("%s:%s", env.Env().ListenHost, env.Env().ListenPort)
 
@@ -27,6 +29,21 @@ func main() {
 	fmt.Println(server)
 
 	// TODO: graceful restart&stop
+}
+
+// どの環境を利用するかの設定はdocker-compose.ymlやecs-task-def.jsonみたいに外から与えたいので以下の関数を用意する
+// (その方がデプロイやビルド時に環境を決めれて便利だから)
+func readEnv() {
+	if err := godotenv.Load(fmt.Sprintf("./config/%s.env", os.Getenv("GO_ENV"))); err != nil {
+		panic(err)
+	}
+}
+
+func setupEnv() {
+	readEnv()
+	if err := env.SetupEnv(); err != nil {
+		panic(err)
+	}
 }
 
 func setupLogger() {
