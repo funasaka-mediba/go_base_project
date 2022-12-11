@@ -28,7 +28,7 @@ func (e *Engine) SetRouter(v1 v1.AppHandler) {
 
 	apiv1.GET(
 		"/hoge",
-		v1.Hoge,
+		v1.GetHoge,
 	)
 }
 

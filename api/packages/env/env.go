@@ -13,6 +13,7 @@ type Config struct {
 	ListenPort           string `envconfig:"LISTEN_PORT" default:"prd"`
 	AccessAllowOrigin    string `envconfig:"ACCESS_ALLOW_ORIGIN" default:"prd"`
 	AccessAllowOriginWeb string `envconfig:"ACCESS_ALLOW_ORIGIN_WEB" default:"prd"`
+	HostURL              string `envconfig:"HOST_URL" default:"prd"`
 
 	LogLevel string `envconfig:"LOG_LEVEL" default:"info"`
 }
