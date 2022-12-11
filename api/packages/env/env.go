@@ -8,9 +8,11 @@ var cfg Config
 // 環境によって読む変数を変えてくれたり、変数のチェックを行えたりすることが利点。
 // 標準パッケージだけでやるならosとかflagを使うことになる。
 type Config struct {
-	GoEnv      string `envconfig:"GO_ENV" default:"prd"`
-	ListenHost string `envconfig:"LISTEN_HOST" default:"prd"`
-	ListenPort string `envconfig:"LISTEN_PORT" default:"prd"`
+	GoEnv                string `envconfig:"GO_ENV" default:"prd"`
+	ListenHost           string `envconfig:"LISTEN_HOST" default:"prd"`
+	ListenPort           string `envconfig:"LISTEN_PORT" default:"prd"`
+	AccessAllowOrigin    string `envconfig:"ACCESS_ALLOW_ORIGIN" default:"prd"`
+	AccessAllowOriginWeb string `envconfig:"ACCESS_ALLOW_ORIGIN_WEB" default:"prd"`
 
 	LogLevel string `envconfig:"LOG_LEVEL" default:"info"`
 }

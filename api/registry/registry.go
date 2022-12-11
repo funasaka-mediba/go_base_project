@@ -19,6 +19,8 @@ type registry struct {
 func NewRegistry() Registry {
 	return &registry{
 		engin: routers.Engine{
+			// gin.Default()使うのがginの使い方でよく書かれているけど、
+			// デフォルトでLoggerとRecoveryのミドルウェアを使ってるから、zapとか使いたい時はNew()にする。
 			Engine: gin.New(),
 		},
 		container: container.Container{},
@@ -27,5 +29,8 @@ func NewRegistry() Registry {
 
 func (r registry) Registry() routers.Engine {
 	// handlerごとに依存レイヤーを注入
+	r.engin.SetBase()
+	r.engin.SetCORS()
+	// r.engin.SetRouter(r.container.GetAppHandler())
 	return r.engin
 }
