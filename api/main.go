@@ -30,10 +30,6 @@ func main() {
 		Handler: router,
 	}
 
-	// 一旦エラー逃れ
-	fmt.Println(server)
-
-	// TODO: graceful restart&stop
 	// 以下Ginでgraceful restart&stopをする際の定型文(こちらでかいてもいいよと公式ドキュメントに載ってる -> https://github.com/gin-gonic/examples/blob/master/graceful-shutdown/graceful-shutdown/notify-with-context/server.go)
 	// ちなみに、ginを使用した以下の実装と標準パッケージでの実装の比較はこちらがわかりやすかった -> https://sourjp.github.io/posts/go-gin-graceful/
 	// ginを使用すると、handler周りの記述が少し楽でいいですね。
