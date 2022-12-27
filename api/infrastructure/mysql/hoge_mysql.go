@@ -22,11 +22,13 @@ func NewHogeMySQL(db adaptor.DBAdaptor) HogeMySQL {
 }
 
 func (m *hogeMySQL) GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError) {
-	// query作成
+	// TODO:query作成
+	// TODO:DBからselectの処理を後で書く
 
 	var h mysqlEntity.Hoge
 
-	// DBからselect
-
+	// TODO:あとでDBからちゃんと取得するようにする
+	h.ID = uint64(hogeID)
+	h.Name = "hogehogetesttest"
 	return &h, nil
 }
