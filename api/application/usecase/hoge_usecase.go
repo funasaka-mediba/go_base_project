@@ -10,21 +10,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetHogeUsecase
-type GetHogeUsecase interface {
+// HogeUsecase
+type HogeUsecase interface {
 	GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError)
 }
 
-type getHogeUsecase struct {
+type hogeUsecase struct {
 	hr repository.HogeRepository
 }
 
 // NewGetHogeUsecase コンストラクタ
-func NewGetHogeUsecase(hr repository.HogeRepository) GetHogeUsecase {
-	return getHogeUsecase{hr}
+func NewHogeUsecase(hr repository.HogeRepository) HogeUsecase {
+	return hogeUsecase{hr}
 }
 
-func (u getHogeUsecase) GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError) {
+func (u hogeUsecase) GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError) {
 	return &response.GetHogeResponse{
 		Timestamp: time.Now().Format(constant.DateTimeLayout),
 		Results:   &response.GetHogeResult{},
