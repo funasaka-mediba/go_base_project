@@ -12,8 +12,9 @@ import (
 )
 
 func Test_hogeMySQL_GetHoge(t *testing.T) {
-	gin.SetMode(gin.ReleaseMode)
-	ctx, _ := gin.CreateTestContext(httptest.NewRecorder())
+	// gin.SetMode(gin.ReleaseMode) ウェルネスのテストクラスだとReleaseModeで実行している。
+	gin.SetMode(gin.TestMode)                               // これがないとginはdebugモードで起動する。なんとなくReleaseModeよりTestModeのほうが正しい気がする。
+	ctx, _ := gin.CreateTestContext(httptest.NewRecorder()) // テスト用に適当なcontextを作成
 	db, _ := adaptor.ReadDb(ctx)
 	tests := map[string]struct {
 		input  func() (hogeID int)
@@ -26,6 +27,8 @@ func Test_hogeMySQL_GetHoge(t *testing.T) {
 			},
 			output: func(t *testing.T, h *mysqlEntity.Hoge, err *customError.CustomError) {
 				assert.Nilf(t, err, "[success] err: %+v", err)
+				assert.Equal(t, h.ID, uint64(0), "[success] h.ID: %+v", h.ID)
+				assert.Equal(t, h.Name, "hogehogetesttest", "[success] h.Name: %+v", h.Name)
 			},
 		},
 	}
