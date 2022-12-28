@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  hogeapi:
+    image: hoge-api
+    container_name: hoge-api
+    build:
+      context: ./api
+      dockerfile: ./../docker/dockerfile/Dockerfile-local
+    environment:
+      - GO_ENV=local
+      - GIN_MODE=debug
+    volumes:
+      - ./api:/app/server
+    # networks:
+    #   - hoge-api_default
+    ports:
+      - "8080:8080"
+
+# networks:
+#   hoge-api_default:
+#     external: true
