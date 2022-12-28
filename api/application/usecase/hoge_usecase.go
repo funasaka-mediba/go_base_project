@@ -25,8 +25,16 @@ func NewHogeUsecase(hr repository.HogeRepository) HogeUsecase {
 }
 
 func (u hogeUsecase) GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError) {
+	hoge, err := u.hr.GetHoge(ctx, 0)
+	if err != nil {
+		return nil, err
+	}
+
 	return &response.GetHogeResponse{
 		Timestamp: time.Now().Format(constant.DateTimeLayout),
-		Results:   &response.GetHogeResult{},
+		Results: &response.GetHogeResult{
+			ID:   hoge.ID,
+			Name: hoge.Name,
+		},
 	}, nil
 }

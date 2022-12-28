@@ -5,4 +5,7 @@ type GetHogeResponse struct {
 	Results   *GetHogeResult `json:"results"`
 }
 
-type GetHogeResult struct{}
+type GetHogeResult struct {
+	ID   uint64 `json:"id"`
+	Name string `json:"name"`
+}

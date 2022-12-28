@@ -21,6 +21,8 @@ func Test_hogeUsecase_GetHoge(t *testing.T) {
 		"success": {
 			output: func(t *testing.T, ghr *response.GetHogeResponse, err *customError.CustomError) {
 				assert.Nilf(t, err, "[success] err: %+v", err)
+				assert.Equal(t, ghr.Results.ID, uint64(0), "[success]ghr.Results.ID: %+v", ghr.Results.ID)
+				assert.Equal(t, ghr.Results.Name, "hogehogetesttest", "[success]ghr.Results.Name: %+v", ghr.Results.Name)
 			},
 		},
 	}
