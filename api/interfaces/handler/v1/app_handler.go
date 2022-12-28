@@ -12,7 +12,7 @@ type AppHandler interface {
 	HogeHandler
 }
 
-func CreateErrorResponse(requestId string, err error, errCode constant.ErrorCode, refURL string) gin.H {
+func CreateErrorResponse(err error, errCode constant.ErrorCode, refURL string) gin.H {
 	return gin.H{
 		// "request_id": requestId, リクエストヘッダーにrequestIDとかがあるなら必要
 		"timestamp": time.Now().Format(constant.ZapDateTimelayout),

@@ -31,6 +31,6 @@ func (r registry) Registry() routers.Engine {
 	// handlerごとに依存レイヤーを注入
 	r.engin.SetBase()
 	r.engin.SetCORS()
-	// r.engin.SetRouter(r.container.GetAppHandler())
+	r.engin.SetRouter(r.container.GetAppHandler())
 	return r.engin
 }
