@@ -38,7 +38,7 @@ func (e *Engine) SetCORS() {
 		// アクセスを許可したいアクセス元
 		AllowOrigins: []string{
 			env.Env().AccessAllowOrigin,
-			env.Env().AccessAllowOriginWeb,
+			// env.Env().AccessAllowOriginWeb,
 		},
 		// アクセスを許可したいHTTPメソッド(以下の例だとPUTはアクセスできません)
 		AllowMethods: []string{
