@@ -1,9 +1,11 @@
 package mysql
 
 import (
+	"go_base_project/constant"
 	"go_base_project/domain/entity/mysqlEntity"
 	"go_base_project/infrastructure/adaptor"
 	"go_base_project/packages/customError"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,13 +24,19 @@ func NewHogeMySQL(db adaptor.DBAdaptor) HogeMySQL {
 }
 
 func (m *hogeMySQL) GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError) {
-	// TODO:query作成
-	// TODO:DBからselectの処理を後で書く
+	query := strings.Join([]string{
+		"SELECT",
+		"	`id`,",
+		"	`name`",
+		"FROM",
+		"	`hoge`",
+		"WHERE",
+		"	`id` = ?",
+	}, " ")
 
 	var h mysqlEntity.Hoge
-
-	// TODO:あとでDBからちゃんと取得するようにする
-	h.ID = uint64(hogeID)
-	h.Name = "hogehogetesttest"
+	if err := m.db.Get(ctx, &h, query, hogeID); err != nil {
+		return nil, customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
+	}
 	return &h, nil
 }

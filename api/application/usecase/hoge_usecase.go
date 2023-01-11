@@ -25,7 +25,7 @@ func NewHogeUsecase(hr repository.HogeRepository) HogeUsecase {
 }
 
 func (u hogeUsecase) GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError) {
-	hoge, err := u.hr.GetHoge(ctx, 0)
+	hoge, err := u.hr.GetHoge(ctx, 1)
 	if err != nil {
 		return nil, err
 	}

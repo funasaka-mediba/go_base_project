@@ -15,7 +15,7 @@ func Test_hogeMySQL_GetHoge(t *testing.T) {
 	// gin.SetMode(gin.ReleaseMode) ウェルネスのテストクラスだとReleaseModeで実行している。
 	gin.SetMode(gin.TestMode)                               // これがないとginはdebugモードで起動する。なんとなくReleaseModeよりTestModeのほうが正しい気がする。
 	ctx, _ := gin.CreateTestContext(httptest.NewRecorder()) // テスト用に適当なcontextを作成
-	db, _ := adaptor.ReadDb(ctx)
+	db, _ := adaptor.WriteDb(ctx)
 	tests := map[string]struct {
 		input  func() (hogeID int)
 		output func(*testing.T, *mysqlEntity.Hoge, *customError.CustomError)

@@ -21,11 +21,9 @@ func NewHogeRepository() HogeRepository {
 }
 
 func (r hogeRepository) GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError) {
-	// db, err := adaptor.ReadDb(ctx)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// mysqlの接続ができるようになったらerrありに書き換える。
-	db, _ := adaptor.ReadDb(ctx)
+	db, err := adaptor.WriteDb(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return mysql.NewHogeMySQL(db).GetHoge(ctx, hogeID)
 }
