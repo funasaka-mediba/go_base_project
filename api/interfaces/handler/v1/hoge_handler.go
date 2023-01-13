@@ -9,6 +9,7 @@ import (
 )
 
 type HogeHandler interface {
+	GetHoges(ctx *gin.Context)
 	GetHoge(ctx *gin.Context)
 }
 
@@ -19,6 +20,16 @@ type hogeHandler struct {
 // NewHogeHandler コンストラクタ
 func NewHogeHandler(hu usecase.HogeUsecase) HogeHandler {
 	return hogeHandler{hu}
+}
+
+func (h hogeHandler) GetHoges(ctx *gin.Context) {
+	res, err := h.hu.GetHoges(ctx)
+	if err != nil {
+		log.Logger.Error("failed to [GET]/hoge", zap.String("path", ctx.Request.URL.Path), zap.Error(err.Err), zap.String("error_source", err.ErrSource))
+		ctx.JSON(err.Status, CreateErrorResponse(err.Err, err.Code, err.RefURL))
+		return
+	}
+	ctx.JSON(200, res)
 }
 
 func (h hogeHandler) GetHoge(ctx *gin.Context) {

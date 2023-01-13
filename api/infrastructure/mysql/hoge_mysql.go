@@ -11,7 +11,8 @@ import (
 )
 
 type HogeMySQL interface {
-	GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError)
+	GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError)
+	GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError)
 }
 
 type hogeMySQL struct {
@@ -23,7 +24,23 @@ func NewHogeMySQL(db adaptor.DBAdaptor) HogeMySQL {
 	return &hogeMySQL{db: db}
 }
 
-func (m *hogeMySQL) GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError) {
+func (m *hogeMySQL) GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError) {
+	query := strings.Join([]string{
+		"SELECT",
+		"	`id`,",
+		"	`name`",
+		"FROM",
+		"	`hoge`",
+	}, " ")
+
+	var h []mysqlEntity.Hoge
+	if err := m.db.Select(ctx, &h, query); err != nil {
+		return nil, customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
+	}
+	return h, nil
+}
+
+func (m *hogeMySQL) GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError) {
 	query := strings.Join([]string{
 		"SELECT",
 		"	`id`,",

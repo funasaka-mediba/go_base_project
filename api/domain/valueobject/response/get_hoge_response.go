@@ -2,7 +2,7 @@ package response
 
 type GetHogeResponse struct {
 	Timestamp string         `json:"timestamp"`
-	Results   *GetHogeResult `json:"results"`
+	Result    *GetHogeResult `json:"result"`
 }
 
 type GetHogeResult struct {
