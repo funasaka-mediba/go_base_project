@@ -10,7 +10,8 @@ import (
 )
 
 type HogeRepository interface {
-	GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError)
+	GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError)
+	GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError)
 }
 
 type hogeRepository struct {
@@ -20,12 +21,18 @@ func NewHogeRepository() HogeRepository {
 	return hogeRepository{}
 }
 
-func (r hogeRepository) GetHoge(ctx *gin.Context, hogeID int) (*mysqlEntity.Hoge, *customError.CustomError) {
-	// db, err := adaptor.ReadDb(ctx)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// mysqlの接続ができるようになったらerrありに書き換える。
-	db, _ := adaptor.ReadDb(ctx)
+func (r hogeRepository) GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError) {
+	db, err := adaptor.WriteDb(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return mysql.NewHogeMySQL(db).GetHoges(ctx)
+}
+
+func (r hogeRepository) GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError) {
+	db, err := adaptor.WriteDb(ctx)
+	if err != nil {
+		return nil, err
+	}
 	return mysql.NewHogeMySQL(db).GetHoge(ctx, hogeID)
 }

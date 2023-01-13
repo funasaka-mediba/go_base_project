@@ -1,6 +1,10 @@
 package env
 
-import "github.com/kelseyhightower/envconfig"
+import (
+	"time"
+
+	"github.com/kelseyhightower/envconfig"
+)
 
 var cfg Config
 
@@ -16,6 +20,17 @@ type Config struct {
 	HostURL string `envconfig:"HOST_URL" default:"prd"`
 
 	LogLevel string `envconfig:"LOG_LEVEL" default:"info"`
+
+	// MYSQL
+	DbMysqlReadHost     string        `envconfig:"DB_HOST_READER"`
+	DbMysqlWriteHost    string        `envconfig:"DB_HOST_WRITER"`
+	DbMysqlPort         string        `envconfig:"DB_PORT"`
+	DbMysqlUser         string        `envconfig:"DB_USERNAME"`
+	DbMysqlPassword     string        `envconfig:"DB_PASSWORD"`
+	DbMysqlDatabase     string        `envconfig:"DB_DATABASE"`
+	DbMysqlMaxIdleConns int           `envconfig:"DB_MYSQL_MAX_IDLE_CONNS"`
+	DbMysqlMaxOpenConns int           `envconfig:"DB_MYSQL_MAX_OPEN_CONNS"`
+	DbMysqlMaxLifetime  time.Duration `envconfig:"DB_MYSQL_MAX_LIFETIME"`
 }
 
 func SetupEnv() error {

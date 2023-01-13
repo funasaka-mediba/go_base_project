@@ -4,6 +4,8 @@
 *.dll
 *.so
 *.dylib
+docker/db/data/*
+docker/db/datatest/*
 
 # Test binary, built with `go test -c`
 *.test
