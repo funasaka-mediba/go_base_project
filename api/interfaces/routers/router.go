@@ -2,6 +2,7 @@ package routers
 
 import (
 	v1 "go_base_project/interfaces/handler/v1"
+	"go_base_project/interfaces/middleware"
 	"go_base_project/packages/env"
 	"time"
 
@@ -27,7 +28,12 @@ func (e *Engine) SetRouter(v1 v1.AppHandler) {
 	apiv1 := e.Engine.Group("/v1")
 
 	apiv1.GET(
-		"/hoge",
+		"/hoges",
+		v1.GetHoges,
+	)
+	apiv1.GET(
+		"/hoge/:hogeID",
+		middleware.BindHogeIDRequestParam(),
 		v1.GetHoge,
 	)
 }
