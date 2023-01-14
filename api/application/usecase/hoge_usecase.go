@@ -14,6 +14,7 @@ import (
 type HogeUsecase interface {
 	GetHoges(ctx *gin.Context) (*response.GetHogesResponse, *customError.CustomError)
 	GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *customError.CustomError)
+	PostHoge(ctx *gin.Context) (*response.PostHogeResponse, *customError.CustomError)
 }
 
 type hogeUsecase struct {
@@ -61,6 +62,21 @@ func (u hogeUsecase) GetHoge(ctx *gin.Context) (*response.GetHogeResponse, *cust
 		Result: &response.GetHogeResult{
 			ID:   hoge.ID,
 			Name: hoge.Name,
+		},
+	}, nil
+}
+
+func (u hogeUsecase) PostHoge(ctx *gin.Context) (*response.PostHogeResponse, *customError.CustomError) {
+	hogeName, _ := ctx.Get("hogeName")
+	id, err := u.hr.InsertHoge(ctx, hogeName.(string))
+	if err != nil {
+		return nil, err
+	}
+
+	return &response.PostHogeResponse{
+		Timestamp: time.Now().Format(constant.DateTimeLayout),
+		Result: &response.PostHogeResult{
+			ID: id,
 		},
 	}, nil
 }

@@ -36,6 +36,11 @@ func (e *Engine) SetRouter(v1 v1.AppHandler) {
 		middleware.BindHogeIDRequestParam(),
 		v1.GetHoge,
 	)
+	apiv1.POST(
+		"/hoge",
+		middleware.BindPostHogeRequestHeader(),
+		v1.PostHoge,
+	)
 }
 
 // SetCORS cors information

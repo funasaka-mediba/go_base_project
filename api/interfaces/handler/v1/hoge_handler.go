@@ -11,6 +11,7 @@ import (
 type HogeHandler interface {
 	GetHoges(ctx *gin.Context)
 	GetHoge(ctx *gin.Context)
+	PostHoge(ctx *gin.Context)
 }
 
 type hogeHandler struct {
@@ -34,6 +35,16 @@ func (h hogeHandler) GetHoges(ctx *gin.Context) {
 
 func (h hogeHandler) GetHoge(ctx *gin.Context) {
 	res, err := h.hu.GetHoge(ctx)
+	if err != nil {
+		log.Logger.Error("failed to [GET]/hoge", zap.String("path", ctx.Request.URL.Path), zap.Error(err.Err), zap.String("error_source", err.ErrSource))
+		ctx.JSON(err.Status, CreateErrorResponse(err.Err, err.Code, err.RefURL))
+		return
+	}
+	ctx.JSON(200, res)
+}
+
+func (h hogeHandler) PostHoge(ctx *gin.Context) {
+	res, err := h.hu.PostHoge(ctx)
 	if err != nil {
 		log.Logger.Error("failed to [GET]/hoge", zap.String("path", ctx.Request.URL.Path), zap.Error(err.Err), zap.String("error_source", err.ErrSource))
 		ctx.JSON(err.Status, CreateErrorResponse(err.Err, err.Code, err.RefURL))

@@ -13,6 +13,7 @@ import (
 type HogeMySQL interface {
 	GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError)
 	GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError)
+	InsertHoge(ctx *gin.Context, name string) (int64, *customError.CustomError)
 }
 
 type hogeMySQL struct {
@@ -56,4 +57,21 @@ func (m *hogeMySQL) GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge,
 		return nil, customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
 	}
 	return &h, nil
+}
+
+func (m *hogeMySQL) InsertHoge(ctx *gin.Context, name string) (int64, *customError.CustomError) {
+	query := strings.Join([]string{
+		"INSERT INTO `hoge` (`name`) VALUES (?)",
+	}, " ")
+
+	result, err := m.db.Exec(ctx, query, name)
+	if err != nil {
+		return 0, customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
+	}
+	insertID, err := result.LastInsertId()
+	if err != nil {
+		return 0, customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
+	}
+
+	return insertID, nil
 }
