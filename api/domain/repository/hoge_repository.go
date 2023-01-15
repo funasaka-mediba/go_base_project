@@ -12,6 +12,8 @@ import (
 type HogeRepository interface {
 	GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError)
 	GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError)
+	InsertHoge(ctx *gin.Context, name string) (int64, *customError.CustomError)
+	DeleteHoge(ctx *gin.Context, hogeID uint64) *customError.CustomError
 }
 
 type hogeRepository struct {
@@ -35,4 +37,20 @@ func (r hogeRepository) GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.H
 		return nil, err
 	}
 	return mysql.NewHogeMySQL(db).GetHoge(ctx, hogeID)
+}
+
+func (r hogeRepository) InsertHoge(ctx *gin.Context, name string) (int64, *customError.CustomError) {
+	db, err := adaptor.WriteDb(ctx)
+	if err != nil {
+		return 0, err
+	}
+	return mysql.NewHogeMySQL(db).InsertHoge(ctx, name)
+}
+
+func (r hogeRepository) DeleteHoge(ctx *gin.Context, hogeID uint64) *customError.CustomError {
+	db, err := adaptor.WriteDb(ctx)
+	if err != nil {
+		return err
+	}
+	return mysql.NewHogeMySQL(db).DeleteHoge(ctx, hogeID)
 }

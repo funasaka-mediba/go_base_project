@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func BindHogeIDRequestParam() gin.HandlerFunc {
+func BindGetHogeRequestHeader() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		param := request.HogeIDRequestParam{}
-		if err := ctx.ShouldBindUri(&param); err != nil {
+		header := request.GetHogeRequest{}
+		if err := ctx.ShouldBindHeader(&header); err != nil {
 			ctx.JSON(400,
 				v1.CreateErrorResponse(
 					err,
@@ -20,6 +20,6 @@ func BindHogeIDRequestParam() gin.HandlerFunc {
 				))
 			ctx.Abort()
 		}
-		ctx.Set("hogeID", param.HogeID)
+		ctx.Set("hogeID", header.HogeID)
 	}
 }
