@@ -14,6 +14,7 @@ type HogeMySQL interface {
 	GetHoges(ctx *gin.Context) ([]mysqlEntity.Hoge, *customError.CustomError)
 	GetHoge(ctx *gin.Context, hogeID uint64) (*mysqlEntity.Hoge, *customError.CustomError)
 	InsertHoge(ctx *gin.Context, name string) (int64, *customError.CustomError)
+	DeleteHoge(ctx *gin.Context, hogeID uint64) *customError.CustomError
 }
 
 type hogeMySQL struct {
@@ -74,4 +75,17 @@ func (m *hogeMySQL) InsertHoge(ctx *gin.Context, name string) (int64, *customErr
 	}
 
 	return insertID, nil
+}
+
+func (m *hogeMySQL) DeleteHoge(ctx *gin.Context, hogeID uint64) *customError.CustomError {
+	query := strings.Join([]string{
+		"DELETE FROM `hoge`",
+		"WHERE",
+		"	`id` = ?",
+	}, " ")
+
+	if _, err := m.db.Exec(ctx, query, hogeID); err != nil {
+		return customError.NewErr(err, constant.GBP5000, customError.Error, 400, "")
+	}
+	return nil
 }

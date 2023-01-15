@@ -32,14 +32,19 @@ func (e *Engine) SetRouter(v1 v1.AppHandler) {
 		v1.GetHoges,
 	)
 	apiv1.GET(
-		"/hoge/:hogeID",
-		middleware.BindHogeIDRequestParam(),
+		"/hoge",
+		middleware.BindGetHogeRequestHeader(),
 		v1.GetHoge,
 	)
 	apiv1.POST(
 		"/hoge",
 		middleware.BindPostHogeRequestHeader(),
 		v1.PostHoge,
+	)
+	apiv1.DELETE(
+		"/hoge",
+		middleware.BindDeleteHogeRequestHeader(),
+		v1.DeleteHoge,
 	)
 }
 
