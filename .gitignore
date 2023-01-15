@@ -6,6 +6,7 @@
 *.dylib
 docker/db/data/*
 docker/db/datatest/*
+api/tmp/*
 
 # Test binary, built with `go test -c`
 *.test
