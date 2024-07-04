@@ -11,8 +11,6 @@ services:
       - GIN_MODE=debug
     volumes:
       - ./api:/app/server
-    networks:
-      - hoge_network
     ports:
       - "8080:8080"
   mysql:
@@ -26,16 +24,10 @@ services:
       MYSQL_PASSWORD: password
       TZ: "Asia/Tokyo"
       LC_ALL: "ja_JP.UTF-8"
-    networks:
-      - hoge_network
     ports:
-      - "4406:3306"
+      - "9906:3306"
     volumes:
       - "./docker/db/data:/var/lib/mysql"
       - "./docker/db/conf:/etc/mysql/conf.d"
       - "./docker/db/init:/docker-entrypoint-initdb.d"
       - "./docker/db/logs:/var/log/mysql"
-      
-networks:
-  hoge_network:
-    external: true
